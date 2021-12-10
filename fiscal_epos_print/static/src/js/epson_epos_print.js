@@ -3,10 +3,12 @@ odoo.define("fiscal_epos_print.epson_epos_print", function (require) {
 
     var core = require("web.core");
     var utils = require('web.utils');
-    var PosDB = require('point_of_sale.DB');
-    var rpc = require('web.rpc');
+    // var PosDB = require('point_of_sale.DB');
+    // var rpc = require('web.rpc');
     var _t = core._t;
     var round_pr = utils.round_precision;
+
+    const { Gui } = require('point_of_sale.Gui');
 
     function addPadding(str, padding=4) {
         var pad = new Array(padding).fill(0).join('') + str;
@@ -125,7 +127,8 @@ odoo.define("fiscal_epos_print.epson_epos_print", function (require) {
             this.sender = sender;
             this.order = options.order || null;
             this.fiscalPrinter.onreceive = function(res, tag_list_names, add_info) {
-                sender.chrome.loading_hide();
+                // TODO not exist
+                // sender.chrome.loading_hide();
                 var tagStatus = (tag_list_names ? tag_list_names.filter(getStatusField) : []);
                 var msgPrinter = "";
 
@@ -138,14 +141,18 @@ odoo.define("fiscal_epos_print.epson_epos_print", function (require) {
                     if (self.order != null) {
                         var order = self.order;
                         order.fiscal_printer_debug_info = JSON.stringify(res) + '\n' + JSON.stringify(tag_list_names) + '\n' + JSON.stringify(add_info);
-                        sender.pos.push_order(order);
+                        // TODO is push_orders or push_single_order
+                        // sender.env.pos.push_orders(order);
+                        // sender.env.pos.push_single_order(order);
                     }
                     if (tagStatus.length > 0) {
                         var info = add_info[tagStatus[0]];
                         var msgPrinter = decodeFpStatus(info);
                     }
-                    sender.chrome.screens['receipt'].lock_screen(true);
-                    sender.pos.gui.show_popup('error', {
+                    // TODO
+                    // sender.chrome.screens['receipt'].lock_screen(true);
+                    // TODO is this correct?
+                    Gui.showPopup('ErrorPopup', {
                         'title': _t('Connection to the printer failed'),
                         'body': _t('An error happened while sending data to the printer. Error code: ') + (res.code || '') + '\n' + _t('Error Message: ') + msgPrinter,
                     });
@@ -158,7 +165,8 @@ odoo.define("fiscal_epos_print.epson_epos_print", function (require) {
                     var old = add_info.responseData[13] + add_info.responseData[14] + add_info.responseData[15] + add_info.responseData[16];
                     var rejected = add_info.responseData[17] + add_info.responseData[18] + add_info.responseData[19] + add_info.responseData[20];
                     var msg = _t("Files waiting to be sent: ") + to_be_sent + "; " + _t("Old files: ") + old + "; " + _t("Rejected files: ") + rejected;
-                    sender.pos.gui.show_popup('alert', {
+                    // TODO is this correct?
+                    Gui.showPopup('ErrorPopup', {
                         'title': _t('IRA files'),
                         'body': msg,
                     });
@@ -167,7 +175,8 @@ odoo.define("fiscal_epos_print.epson_epos_print", function (require) {
 
                 // is it a receipt data?
                 if (add_info.fiscalReceiptNumber && add_info.fiscalReceiptAmount && add_info.fiscalReceiptDate && add_info.zRepNumber) {
-                    sender.chrome.screens['receipt'].lock_screen(false);
+                    // TODO
+                    // sender.chrome.screens['receipt'].lock_screen(false);
                     var order = self.order;
                     order._printed = true;
                     if (!order.fiscal_receipt_number) {
@@ -176,25 +185,30 @@ odoo.define("fiscal_epos_print.epson_epos_print", function (require) {
                         var fiscalReceiptDate = new Date(add_info.fiscalReceiptDate.replace(/(\d{1,2})\/(\d{1,2})\/(\d{4})/, '$3/$2/$1'));
                         order.fiscal_receipt_date = moment(fiscalReceiptDate).format('YYYY-MM-DD');
                         order.fiscal_z_rep_number = add_info.zRepNumber;
-                        order.fiscal_printer_serial = sender.pos.config.fiscal_printer_serial;
-                        sender.pos.db.add_order(order.export_as_JSON());
+                        order.fiscal_printer_serial = sender.env.pos.config.fiscal_printer_serial;
+                        sender.env.pos.db.add_order(order.export_as_JSON());
                         // try to save the order
-                        sender.pos.push_order();
+                        // TODO is push_orders or push_single_order
+                        // sender.env.pos.push_orders();
+                        // sender.env.pos.push_single_order();
                     }
-                    if(sender.pos.config.fiscal_cashdrawer)
+                    if(sender.env.pos.config.fiscal_cashdrawer)
                     {
                         self.printOpenCashDrawer();
                     }
-                    if (!sender.pos.config.show_receipt_when_printing) {
-                        sender.chrome.screens['receipt'].click_next();
+                    if (!sender.env.pos.config.show_receipt_when_printing) {
+                        // TODO
+                        // sender.chrome.screens['receipt'].click_next();
                     }
                     return;
                 }
             }
             this.fiscalPrinter.onerror = function() {
-                sender.chrome.loading_hide();
-                sender.chrome.screens['receipt'].lock_screen(true);
-                sender.pos.gui.show_popup('error', {
+                // TODO not exist
+                // sender.chrome.loading_hide();
+                // sender.chrome.screens['receipt'].lock_screen(true);
+                // TODO is this correct?
+                Gui.showPopup('ErrorPopup', {
                     'title': _t('Network error'),
                     'body': _t('Printer can not be reached')
                 });
@@ -375,7 +389,7 @@ odoo.define("fiscal_epos_print.epson_epos_print", function (require) {
                             xml += self.printRecItemAdjustment({
                                 adjustmentType: 0,
                                 description: _t('Discount') + ' ' + l.discount + '%',
-                                amount: round_pr((l.quantity * l.full_price) - l.price_display, self.sender.pos.currency.rounding),
+                                amount: round_pr((l.quantity * l.full_price) - l.price_display, self.sender.env.pos.currency.rounding),
                             });
                         }
                     }

@@ -6,7 +6,7 @@
 
 {
     'name': 'ITA - Driver per stampanti fiscali compatibili ePOS-Print XML',
-    'version': '12.0.1.3.4',
+    'version': '14.0.1.0.1.beta.3',
     'category': 'Point Of Sale',
     'summary': 'ePOS-Print XML Fiscal Printer Driver - Stampanti Epson compatibili: '
                'FP81II, FP90III',
@@ -16,16 +16,28 @@
     ),
     'license': 'AGPL-3',
     'website': 'https://github.com/OCA/l10n-italy',
-    'maintainers': ['eLBati'],
-    'depends': ['point_of_sale', 'pos_order_mgmt'],
+    'maintainers': [
+        'eLBati'
+    ],
+    'depends': [
+        'point_of_sale',
+        # TODO is this necessary?
+        # 'pos_order_mgmt'
+    ],
     'data': [
         'views/account.xml',
         'views/point_of_sale.xml',
         'views/assets.xml',
     ],
     'qweb': [
-        'static/src/xml/pos.xml',
-        'static/src/xml/lottery.xml',
+        'static/src/xml/Chrome.xml',
+        'static/src/xml/ChromeWidgets/EpsonEPOSButton.xml',
+        'static/src/xml/ChromeWidgets/EpsonFP81IIComponent.xml',
+        'static/src/xml/ChromeWidgets/SetLotteryCodeButton.xml',
+        'static/src/xml/ChromeWidgets/SetRefundInfoButton.xml',
+        # TODO To be converted with new components system
+        # 'static/src/xml/pos.xml',
+        # 'static/src/xml/lottery.xml',
     ],
     'installable': True,
     'auto_install': False,
