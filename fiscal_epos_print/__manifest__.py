@@ -30,6 +30,9 @@
         'views/assets.xml',
     ],
     'qweb': [
+        # Popups
+        'static/src/xml/Popups/RefundInfoPopup.xml',
+        # Others
         'static/src/xml/Chrome.xml',
         'static/src/xml/ChromeWidgets/EpsonEPOSButton.xml',
         'static/src/xml/ChromeWidgets/EpsonFP81IIComponent.xml',
