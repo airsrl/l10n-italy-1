@@ -20,6 +20,9 @@ odoo.define('fiscal_epos_print.SetRefundInfoButton', function(require) {
             //     this.orderline_change();
             //     this.bind_order_events();
             // },this);
+        }
+
+        mounted() {
             this.bind_order_events();
             this.orderline_change();
         }
@@ -29,10 +32,11 @@ odoo.define('fiscal_epos_print.SetRefundInfoButton', function(require) {
            return order
         }
 
-        mounted() {
+        render() {
             var color = this.refund_get_button_color();
-//            this.$el.css('background', color);
+            $(this.el).css('background', color);
         }
+
         // willUnmount() {
         //     this.env.pos.get('orders').off('add remove change', null, this);
         //     this.env.pos.off('change:selectedOrder', null, this);
@@ -47,7 +51,7 @@ odoo.define('fiscal_epos_print.SetRefundInfoButton', function(require) {
                 refund_doc_num: current_order.refund_doc_num,
                 refund_cash_fiscal_serial: current_order.refund_cash_fiscal_serial,
                 update_refund_info_button: function(){
-                  self.renderElement();
+                  self.render();
                 },
             });
         }
@@ -104,7 +108,7 @@ odoo.define('fiscal_epos_print.SetRefundInfoButton', function(require) {
                 var lines = order.orderlines;
                 order.has_refund = lines.find(function(line){ return line.quantity < 0.0;}) != undefined;
             }
-            //this.renderElement();
+            this.render();
         }
 
 
