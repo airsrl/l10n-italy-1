@@ -38,6 +38,7 @@
         'static/src/xml/ChromeWidgets/EpsonFP81IIComponent.xml',
         'static/src/xml/ChromeWidgets/SetLotteryCodeButton.xml',
         'static/src/xml/ChromeWidgets/SetRefundInfoButton.xml',
+        'static/src/xml/ChromeWidgets/SetReprintButton.xml',
         # TODO To be converted with new components system
         # 'static/src/xml/pos.xml',
         # 'static/src/xml/lottery.xml',

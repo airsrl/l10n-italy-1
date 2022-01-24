@@ -376,13 +376,14 @@ odoo.define("fiscal_epos_print.epson_epos_print", function (require) {
             var has_refund = _.every(receipt.orderlines, function(line) {
                 return line.quantity < 0;
             });
-            var xml = '<printerFiscalReceipt><beginFiscalReceipt/>';
+            // TODO check if the printer is fiscalized it require "beginFiscalReceipt" tag
+            var xml = '<printerFiscalReceipt>;';//<beginFiscalReceipt/>';
             // header must be printed before beginning a fiscal receipt
             xml += this.printFiscalReceiptHeader(receipt);
             // TODO now it's seems to be mandatory for refund too
-            // if (!has_refund) {
-            //     xml += '<beginFiscalReceipt/>';
-            // }
+//            if (!has_refund) {
+//                xml += '<beginFiscalReceipt/>';
+//            }
             if (has_refund)
             {
                 xml += this.printFiscalRefundDetails({
