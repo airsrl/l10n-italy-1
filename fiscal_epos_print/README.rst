@@ -115,9 +115,13 @@ Contributors
 * Dario Del Zozzo
 
 * `AIR <https://www.air.co.it>`_:
+
   * Kevin Poli
+  
   * Simone Cuffaro
+  
   * Leonardo Guerra
+  
 
 Maintainers
 ~~~~~~~~~~~
