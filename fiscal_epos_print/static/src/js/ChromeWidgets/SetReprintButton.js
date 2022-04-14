@@ -28,7 +28,9 @@ odoo.define("fiscal_epos_print.SetReprintButton", function (require) {
                     title:_t('Ristampa ultimo scontrino?'),
                     confirmText: 'Conferma',
                     cancelText: 'Annulla',
-                    body: 'Usare la ristampa ultimo scontrino solo in caso di errori di stampa',
+                    body: 'Usare la ristampa ultimo scontrino solo in caso di errori di comunicazione con la' +
+                    'stampante e lo scontrino NON è stato stampato. Viene ristampanto uno scontrino FISCALE' +
+                     'con gli stessi articoli del precedente',
                 });
                 if (confirmed) {
                     var printer_options = this.currentOrder.getPrinterOptions();
