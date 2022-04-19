@@ -534,15 +534,15 @@ odoo.define("fiscal_epos_print.epson_epos_print", function (require) {
 //                xml += '<directIO command="4038" data="0212345                                                                                             " comment="Login password 0212345 followed by 93 spaces for a length of 100" />';
 //            xml += '</printerCommand>';
 
-//            var xml = '<printerCommand>'
-//                xml += '<directIO command="1047" data="01" />'
-//            xml += '</printerCommand>'
+            var xml = '<printerCommand>'
+                xml += '<directIO command="1047" data="01" />'
+            xml += '</printerCommand>'
 
-            var xml = '<printerNonFiscal>';
-                xml += '<beginNonFiscal operator="1" />';
-                    xml += '<printDuplicateReceipt operator="1" />';
-                xml += '<endNonFiscal operator="1" />';
-            xml += '</printerNonFiscal>';
+//            var xml = '<printerNonFiscal>';
+//                xml += '<beginNonFiscal operator="1" />';
+//                    xml += '<printDuplicateReceipt operator="1" />';
+//                xml += '<endNonFiscal operator="1" />';
+//            xml += '</printerNonFiscal>';
 //            xml += '<printDuplicateReceipt operator="1" />'
             this.fiscalPrinter.send(this.url, xml);
         },
