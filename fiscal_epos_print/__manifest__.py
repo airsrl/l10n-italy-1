@@ -11,8 +11,8 @@
     'summary': 'ePOS-Print XML Fiscal Printer Driver - Stampanti Epson compatibili: '
                'FP81II, FP90III',
     'author': (
-        'Odoo Community Association (OCA), Agile Business Group, '
-        'Leonardo Donelli, TAKOBI, Level Prime Srl'
+        'Odoo Community Association (OCA), Agile Business Group, Air s.r.l. '
+        'Leonardo Donelli, Riccardo Cipriani, TAKOBI, Level Prime Srl'
     ),
     'license': 'AGPL-3',
     'website': 'https://github.com/OCA/l10n-italy',
