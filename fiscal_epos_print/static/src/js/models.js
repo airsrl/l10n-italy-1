@@ -115,11 +115,13 @@ odoo.define('fiscal_epos_print.models', function (require) {
                         'title': _t('Network error'),
                         'body': _t('Manca iva su prodotto')
                     });}
-            if (res['tax_department']['included_in_price'] == true) {
-                res['full_price'] = this.price
-            }
-            else {
-                res['full_price'] = this.price * (1 + (res['tax_department']['tax_amount'] / 100))
+            if (res['tax_department']){
+                if (res['tax_department']['included_in_price'] == true) {
+                    res['full_price'] = this.price
+                }
+                else {
+                    res['full_price'] = this.price * (1 + (res['tax_department']['tax_amount'] / 100))
+                }
             }
             return res;
         },

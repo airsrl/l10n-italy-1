@@ -264,7 +264,7 @@ odoo.define("fiscal_epos_print.epson_epos_print", function (require) {
 
         /*
           Prints a sale refund item line.
-          Prints refund items on a commercial refund document if flag SET 14/58 = 1.
+          Prints refund items on a commercial refund document if flag SET 14/58 = 1 (from display 3333 > 14 > 58 > X).
         */
         printRecRefund: function(args) {
             var tag = '<printRecRefund'
@@ -336,6 +336,23 @@ odoo.define("fiscal_epos_print.epson_epos_print", function (require) {
             return msg;
         },
 
+        // Stampa del CF Su Scontrino - modalità definita da epson
+
+        printFiscaldirectIOCodiceFiscale: function(receipt){
+            var self = this;
+            var msg = '';
+            if (receipt.header != '' && receipt.header.length > 0) {
+                var hdr = receipt.header.split(/\r\n|\r|\n/);
+                _.each(hdr, function(m, i) {
+                    if(self.encodeXml(m)){
+                        msg += '<directIO' + ' command="1061" data="01' + self.encodeXml(m) + '" />'
+                    }
+
+                    });
+            }
+            return msg;
+        },
+
         // Remember that the footer goes within <printerFiscalReceipt><beginFiscalReceipt operator="1" />
         // as PROMO code messageType=3
         printFiscalReceiptFooter: function(receipt){
@@ -384,7 +401,11 @@ odoo.define("fiscal_epos_print.epson_epos_print", function (require) {
             // TODO check if the printer is fiscalized it require "beginFiscalReceipt" tag
             var xml = '<printerFiscalReceipt>';//<beginFiscalReceipt operator="1" />';
             // header must be printed before beginning a fiscal receipt
-            xml += this.printFiscalReceiptHeader(receipt);
+
+            //xml += this.printFiscalReceiptHeader(receipt);
+
+            xml += this.printFiscaldirectIOCodiceFiscale(receipt);
+
             // TODO now it's seems to be mandatory for refund too
 //            if (!has_refund) {
 //                xml += '<beginFiscalReceipt operator="1" />';
